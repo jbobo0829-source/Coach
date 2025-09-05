@@ -1,0 +1,60 @@
+openapi: 3.1.0
+info:
+  title: Coach Beeps API
+  version: 1.0.0
+  description: Simple tone endpoints for GPT Actions (beep & chime).
+servers:
+  - url: https://YOUR-DEPLOYED-DOMAIN/api
+paths:
+  /beep:
+    get:
+      operationId: beep
+      summary: Play a 440 Hz beep
+      description: Returns a 16-bit mono WAV at 440 Hz for the requested duration.
+      parameters:
+        - in: query
+          name: ms
+          description: Duration in milliseconds (50–2000). Default 300.
+          schema:
+            type: integer
+            minimum: 50
+            maximum: 2000
+            default: 300
+      responses:
+        '200':
+          description: WAV audio
+          content:
+            audio/wav:
+              schema:
+                type: string
+                format: binary
+  /chime:
+    get:
+      operationId: chime
+      summary: Play a variable-pitch tone
+      description: Returns a 16-bit mono WAV at the given frequency and duration.
+      parameters:
+        - in: query
+          name: hz
+          description: Frequency in Hertz (110–2000). Default 784.
+          schema:
+            type: integer
+            minimum: 110
+            maximum: 2000
+            default: 784
+        - in: query
+          name: ms
+          description: Duration in milliseconds (50–4000). Default 600.
+          schema:
+            type: integer
+            minimum: 50
+            maximum: 4000
+            default: 600
+      responses:
+        '200':
+          description: WAV audio
+          content:
+            audio/wav:
+              schema:
+                type: string
+                format: binary
